@@ -19,78 +19,90 @@
         }
         .input-field:focus {
             background-color: #374151; /* bg-gray-700 */
-            border-color: #2dd4bf; /* border-teal-400 */
-            box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.3);
+            border-color: #818cf8; /* border-indigo-400 */
+            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.3);
         }
     </style>
 </head>
 
 <body class="bg-gray-900 min-h-screen w-full flex items-center justify-center p-4">
-    <div class="w-full max-w-2xl mx-auto bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-2xl shadow-teal-500/10 p-6 sm:p-8 border border-gray-700/60">
+    <div class="w-full max-w-2xl mx-auto bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-2xl shadow-indigo-500/10 p-6 sm:p-8 border border-gray-700/60">
         
         <div id="main-content" class="animate-fade-in-up">
             <div class="text-center mb-8">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-teal-400 tracking-tight">Отчет Агента</h1>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-indigo-400 tracking-tight">Отзыв.KZ</h1>
                 <p class="text-gray-400 mt-2 text-lg">Ваша информация меняет качество</p>
+            </div>
+            
+            <div id="user-profile" class="hidden my-6 p-5 bg-slate-800 rounded-2xl border border-slate-700 shadow-sm">
+                <div class="flex justify-between items-center mb-3">
+                    <p class="text-sm text-slate-400">Профиль: <strong id="profile-phone" class="font-semibold text-slate-200"></strong></p>
+                    <span id="profile-level-badge" class="font-bold text-sm px-3 py-1 rounded-full"></span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-indigo-500 h-2.5 rounded-full transition-all duration-500"></div>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                    <p class="text-xs text-slate-400">Отзывов: <strong id="profile-count" class="font-medium text-slate-300"></strong></p>
+                    <p id="next-level-text" class="text-xs text-indigo-400 font-semibold"></p>
+                </div>
             </div>
 
             <form id="review-form" class="space-y-6">
-                <div id="mission-container" class="bg-gray-700/50 p-5 rounded-xl border-2 border-dashed border-teal-500/40 text-center">
-                    <h3 class="font-bold text-lg text-teal-300 mb-2">⚡️ Задание для проверки:</h3>
+                <div id="mission-container" class="bg-gray-700/50 p-5 rounded-xl border-2 border-dashed border-indigo-500/40 text-center">
+                    <h3 class="font-bold text-lg text-indigo-300 mb-2">⚡️ Ваша миссия:</h3>
                     <p id="mission-text" class="text-gray-300/90"></p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" name="name" id="name-input" required class="w-full p-3 rounded-lg outline-none input-field" placeholder="Ваш позывной (Имя)"/>
+                    <input type="text" name="name" id="name-input" required class="w-full p-3 rounded-lg outline-none input-field" placeholder="Ваше имя"/>
                     <input type="tel" name="phone" id="phone-input" required class="w-full p-3 rounded-lg outline-none input-field" placeholder="Контактный номер"/>
                 </div>
                 
-                <textarea name="reviewText" id="reviewText-input" rows="5" required class="w-full p-3 rounded-lg outline-none input-field" placeholder="Детальное описание отчета... (min 50 зн.)"></textarea>
+                <textarea name="reviewText" id="reviewText-input" rows="5" required class="w-full p-3 rounded-lg outline-none input-field" placeholder="Детальное описание отзыва... (min 50 зн.)"></textarea>
                 
-                <div id="reward-container" class="text-center bg-teal-900/50 text-teal-200 p-4 rounded-xl font-bold text-lg border border-teal-700 transition-all duration-300 opacity-0 scale-95"></div>
+                <div id="reward-container" class="text-center bg-emerald-900/50 text-emerald-200 p-4 rounded-xl font-bold text-lg border border-emerald-700 transition-all duration-300 opacity-0 scale-95"></div>
                 
                 <p id="form-error" class="text-red-400 text-sm text-center hidden font-semibold"></p>
                 
-                <button type="submit" id="submit-review-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-teal-400/50 disabled:bg-gray-600 disabled:cursor-not-allowed disabled:hover:scale-100">
-                    Отправить отчет и получить вознаграждение
+                <button type="submit" id="submit-review-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-400/50 disabled:bg-gray-600 disabled:cursor-not-allowed disabled:hover:scale-100">
+                    Отправить отзыв и получить баллы
                 </button>
             </form>
         </div>
 
         <div id="success-message" class="hidden text-center py-8">
-            <svg class="h-24 w-24 mx-auto text-teal-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <h2 class="text-3xl font-extrabold text-gray-100 mb-2">Отчет принят!</h2>
+            <svg class="h-24 w-24 mx-auto text-emerald-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <h2 class="text-3xl font-extrabold text-gray-100 mb-2">Миссия выполнена!</h2>
             <div id="success-text" class="text-gray-300 mb-8 p-4 bg-gray-700/80 rounded-lg text-lg"></div>
-            <button id="leave-another-review-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg">Приступить к новому заданию</button>
+            <button id="leave-another-review-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg">Выполнить новую миссию</button>
         </div>
 
     </div>
 
 <script type="module">
     // --- НАСТРОЙКИ СИСТЕМЫ ---
-    // URL для отправки данных в Google Sheets
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAu9w8cQTIbm6hucwKYPjRhwwiqU1uHwcxM_YzWmhDbTnFK_0nwGJ2HDS38Xd9Mu-5/exec'; 
 
-    // Внутренняя система рангов (не отображается пользователю)
-    const RANKS = {
-        0: { name: 'Аналитик', threshold: 0, multiplier: 1.0 },
-        1: { name: 'Специалист', threshold: 5, multiplier: 1.1 },
-        2: { name: 'Старший специалист', threshold: 15, multiplier: 1.25 },
-        3: { name: 'Эксперт', threshold: 50, multiplier: 1.5 }
+    const LEVELS = {
+        0: { name: 'Новичок', color: 'bg-green-200/20 text-green-300', threshold: 0, multiplier: 1.0 },
+        1: { name: 'Знаток', color: 'bg-blue-200/20 text-blue-300', threshold: 5, multiplier: 1.1 },
+        2: { name: 'Ревизор', color: 'bg-purple-200/20 text-purple-300', threshold: 15, multiplier: 1.25 },
+        3: { name: 'Амбассадор', color: 'bg-amber-200/20 text-amber-300', threshold: 50, multiplier: 1.5 }
     };
     const REWARDS = {
         BASE_REVIEW: 300,
     };
     const MISSIONS = [
-        "Проверьте компетентность и дружелюбие фармацевта. Насколько полно он ответил на ваши вопросы?",
-        "Оцените скорость обслуживания и управление очередью. Пришлось ли вам долго ждать?",
-        "Проанализируйте чистоту, освещение и общую атмосферу в аптеке. Насколько комфортно там находиться?",
-        "Исследуйте полноту ассортимента. Удалось ли найти все необходимые препараты или их аналоги?",
-        "Запросите информацию о программе лояльности или скидках. Была ли информация предоставлена четко и понятно?"
+        "Оцените компетентность и вежливость фармацевта. Помог ли он вам с выбором?",
+        "Насколько быстро вас обслужили? Была ли очередь, и как персонал с ней справлялся?",
+        "Оцените чистоту и порядок в аптеке. Все ли ценники на месте и легко читаемы?",
+        "Как вы оцениваете ассортимент лекарств и сопутствующих товаров? Нашли ли вы всё, что искали?",
+        "Задайте фармацевту вопрос о побочных эффектах или аналоге препарата. Опишите, насколько полным и понятным был ответ."
     ];
 
     // --- СОСТОЯНИЕ ПРИЛОЖЕНИЯ ---
-    const state = { userRank: RANKS[0], submissionCount: 0, points: 0 };
+    const state = { userLevel: LEVELS[0], submissionCount: 0, points: 0 };
 
     // --- ЭЛЕМЕНТЫ DOM ---
     const form = document.getElementById('review-form');
@@ -113,13 +125,13 @@
         const data = localStorage.getItem(normalized);
         const userData = data ? JSON.parse(data) : { submissionCount: 0 };
         
-        let rankKey = 0;
-        for (const key in RANKS) {
-            if (userData.submissionCount >= RANKS[key].threshold) {
-                rankKey = key;
+        let levelKey = 0;
+        for (const key in LEVELS) {
+            if (userData.submissionCount >= LEVELS[key].threshold) {
+                levelKey = key;
             }
         }
-        userData.rank = RANKS[rankKey];
+        userData.level = LEVELS[levelKey];
         return userData;
     };
     
@@ -128,13 +140,55 @@
     };
 
     // --- ОСНОВНАЯ ЛОГИКА ---
-    function updateUserRank() {
+    function updateUIWithUserData() {
         const phone = phoneInput.value;
-        if (!isValidPhone(phone)) return;
+        if (!isValidPhone(phone)) {
+            document.getElementById('user-profile').classList.add('hidden');
+            return;
+        }
 
         const userData = getUserData(phone);
-        state.userRank = userData.rank;
+        state.userLevel = userData.level;
         state.submissionCount = userData.submissionCount;
+
+        // --- Обновляем элементы интерфейса ---
+        document.getElementById('profile-phone').textContent = phone;
+        document.getElementById('profile-count').textContent = userData.submissionCount;
+        
+        const badge = document.getElementById('profile-level-badge');
+        badge.textContent = userData.level.name;
+        badge.className = `font-bold text-sm px-3 py-1 rounded-full ${userData.level.color}`;
+        
+        // --- Логика для прогресс-бара и текста ---
+        const progressBar = document.getElementById('progress-bar');
+        const nextLevelText = document.getElementById('next-level-text');
+
+        const levelKeys = Object.keys(LEVELS).map(Number);
+        const currentLevelIndex = levelKeys.findIndex(key => LEVELS[key] === userData.level);
+        const isMaxLevel = currentLevelIndex === levelKeys.length - 1;
+
+        let progressPercent = 0;
+
+        if (isMaxLevel) {
+            progressPercent = 100;
+            nextLevelText.textContent = "Максимальный ранг достигнут! 🎉";
+        } else {
+            const nextLevelKey = levelKeys[currentLevelIndex + 1];
+            const nextLevelThreshold = LEVELS[nextLevelKey].threshold;
+            const prevLevelThreshold = userData.level.threshold;
+            
+            const reviewsInCurrentLevel = userData.submissionCount - prevLevelThreshold;
+            const reviewsNeededForNext = nextLevelThreshold - prevLevelThreshold;
+            
+            progressPercent = Math.floor((reviewsInCurrentLevel / reviewsNeededForNext) * 100);
+            
+            const reviewsLeft = nextLevelThreshold - userData.submissionCount;
+            nextLevelText.textContent = `До "${LEVELS[nextLevelKey].name}": ${reviewsLeft} отз.`;
+        }
+
+        progressBar.style.width = `${progressPercent}%`;
+
+        document.getElementById('user-profile').classList.remove('hidden');
         calculateReward();
     }
 
@@ -144,7 +198,7 @@
             totalPoints += REWARDS.BASE_REVIEW;
         }
 
-        const finalPoints = Math.ceil(totalPoints * state.userRank.multiplier);
+        const finalPoints = Math.ceil(totalPoints * state.userLevel.multiplier);
         state.points = finalPoints;
 
         if (finalPoints > 0) {
@@ -160,30 +214,30 @@
         formError.classList.add('hidden');
 
         if (!isValidPhone(phoneInput.value) || nameInput.value.trim() === '' || reviewTextInput.value.trim() === '') {
-            formError.textContent = 'Необходимо заполнить все поля для отправки отчета.';
+            formError.textContent = 'Необходимо заполнить все поля.';
             formError.classList.remove('hidden');
             return;
         }
         if (reviewTextInput.value.length < 50) {
-             formError.textContent = 'Отчет слишком короткий. Требуется больше деталей (минимум 50 знаков).';
+             formError.textContent = 'Отзыв слишком короткий. Требуется больше деталей (минимум 50 знаков).';
              formError.classList.remove('hidden');
              return;
         }
         
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Передача данных...';
+        submitBtn.textContent = 'Отправка данных...';
 
         const userData = getUserData(phoneInput.value);
         userData.submissionCount += 1;
         saveUserData(phoneInput.value, userData);
         
         // Обновляем ранг в state перед отправкой
-        updateUserRank();
+        updateUIWithUserData(); 
 
         const dataToSend = {
             name: nameInput.value,
             phone: phoneInput.value,
-            rank: state.userRank.name, // Отправляем название ранга
+            level: state.userLevel.name, 
             reviewText: reviewTextInput.value,
             pointsAwarded: state.points
         };
@@ -202,14 +256,14 @@
             formError.classList.remove('hidden');
         } finally {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Отправить отчет и получить вознаграждение';
+            submitBtn.textContent = 'Отправить отзыв и получить баллы';
         }
     }
 
     function showSuccessMessage() {
         document.getElementById('main-content').classList.add('hidden');
         const successText = document.getElementById('success-text');
-        successText.innerHTML = `Вознаграждение в размере <strong class="text-teal-300">${state.points} баллов</strong> зачислено на ваш счет. Благодарим за содействие!`;
+        successText.innerHTML = `Вознаграждение в размере <strong class="text-emerald-300">${state.points} баллов</strong> зачислено. Благодарим за содействие!`;
         document.getElementById('success-message').classList.remove('hidden');
     }
 
@@ -219,6 +273,7 @@
         form.reset();
         state.points = 0;
         rewardContainer.classList.add('opacity-0', 'scale-95');
+        document.getElementById('user-profile').classList.add('hidden');
         setRandomMission();
     }
     
@@ -231,7 +286,7 @@
     window.onload = () => {
         IMask(phoneInput, { mask: '+{7} (000) 000-00-00' });
         
-        phoneInput.addEventListener('input', updateUserRank);
+        phoneInput.addEventListener('input', updateUIWithUserData);
         reviewTextInput.addEventListener('input', calculateReward);
         form.addEventListener('submit', handleSubmit);
         document.getElementById('leave-another-review-btn').addEventListener('click', resetForm);
