@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Отзыв.KZ - Ваш отзыв, Ваша выгода!</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js" charset="utf-8"></script>
     <script src="https://unpkg.com/imask"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
@@ -13,24 +12,6 @@
         .bg-soft-pattern { background-color: #f7fafc; }
         .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Стилизация виджета Uploadcare */
-        .uploadcare--widget__button_type_open {
-            background-color: #e0f2fe; /* bg-sky-100 */
-            color: #0c4a6e; /* text-sky-800 */
-            border: 1px solid #bae6fd; /* border-sky-200 */
-            border-radius: 0.75rem; /* rounded-xl */
-            padding: 0.75rem 1.25rem;
-            font-weight: 600;
-            transition: all 0.2s ease-in-out;
-        }
-        .uploadcare--widget__button_type_open:hover {
-            background-color: #bae6fd; /* hover:bg-sky-200 */
-            border-color: #7dd3fc; /* hover:border-sky-300 */
-        }
-        .uploadcare--widget__button_type_open:focus {
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4); /* focus:ring-sky-300 */
-        }
         .level-badge { transition: all 0.3s ease; }
     </style>
 </head>
@@ -60,23 +41,18 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     <input type="text" name="name" id="name-input" required class="w-full p-3 bg-gray-100 rounded-lg border-2 border-transparent focus:ring-2 focus:ring-sky-400 focus:bg-white focus:border-sky-400 outline-none transition" placeholder="Ваше Имя"/>
-                     <input type="tel" name="phone" id="phone-input" required class="w-full p-3 bg-gray-100 rounded-lg border-2 border-transparent focus:ring-2 focus:ring-sky-400 focus:bg-white focus:border-sky-400 outline-none transition" placeholder="+7 (___) ___-__-__"/>
+                    <input type="text" name="name" id="name-input" required class="w-full p-3 bg-gray-100 rounded-lg border-2 border-transparent focus:ring-2 focus:ring-sky-400 focus:bg-white focus:border-sky-400 outline-none transition" placeholder="Ваше Имя"/>
+                    <input type="tel" name="phone" id="phone-input" required class="w-full p-3 bg-gray-100 rounded-lg border-2 border-transparent focus:ring-2 focus:ring-sky-400 focus:bg-white focus:border-sky-400 outline-none transition" placeholder="+7 (___) ___-__-__"/>
                 </div>
                 
-                <textarea name="reviewText" id="reviewText-input" rows="5" required class="w-full p-3 bg-gray-100 rounded-lg border-2 border-transparent focus:ring-2 focus:ring-sky-400 focus:bg-white focus:border-sky-400 outline-none transition" placeholder="Опишите детали вашей миссии здесь... (от 150 символов для бонуса)"></textarea>
-                
-                <div class="text-center">
-                     <label class="block text-sm font-medium text-gray-600 mb-2">Прикрепите фото для экстра-бонуса</label>
-                     <input type="hidden" role="uploadcare-uploader" data-public-key="eca0b5d27dcb2fa395bd" data-images-only id="file-upload-widget" />
-                </div>
+                <textarea name="reviewText" id="reviewText-input" rows="5" required class="w-full p-3 bg-gray-100 rounded-lg border-2 border-transparent focus:ring-2 focus:ring-sky-400 focus:bg-white focus:border-sky-400 outline-none transition" placeholder="Опишите детали вашей миссии здесь... (от 50 символов)"></textarea>
                 
                 <div id="reward-container" class="text-center bg-emerald-50 text-emerald-800 p-4 rounded-xl font-bold text-lg border border-emerald-200 transition-all duration-300 opacity-0 scale-95"></div>
                 
                 <p id="form-error" class="text-red-600 text-sm text-center hidden font-semibold"></p>
                 
                 <button type="submit" id="submit-review-btn" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-sky-300 disabled:bg-gray-400 disabled:cursor-not-allowed">
-                     Отправить и получить баллы!
+                    Отправить и получить баллы!
                 </button>
             </form>
         </div>
@@ -92,7 +68,7 @@
 
 <script type="module">
     // --- НАСТРОЙКИ ГЕЙМИФИКАЦИИ ---
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAu9w8cQTIbm6hucwKYPjRhwwiqU1uHwcxM_YzWmhDbTnFK_0nwGJ2HDS38Xd9Mu-5/exec'; // 
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAu9w8cQTIbm6hucwKYPjRhwwiqU1uHwcxM_YzWmhDbTnFK_0nwGJ2HDS38Xd9Mu-5/exec'; // Замените на ваш URL
 
     const LEVELS = {
         0: { name: 'Новичок', color: 'bg-green-200 text-green-800', threshold: 0, multiplier: 1.0 },
@@ -101,20 +77,18 @@
         3: { name: 'Амбассадор', color: 'bg-amber-200 text-amber-800', threshold: 50, multiplier: 1.5 }
     };
     const REWARDS = {
-        BASE_REVIEW: 200,
-        WITH_PHOTO: 150,
-        DETAILED_REVIEW_BONUS: 0 // Will be calculated based on text length
+        BASE_REVIEW: 250, // Базовая награда за отзыв
     };
     const MISSIONS = [
-        "Насколько чисто было в торговом зале? Опишите подробно.",
-        "Квест: Проверьте срок годности у 3-х молочных продуктов. Выявили просрочку?",
-        "Оцените ассортимент и свежесть овощей и фруктов.",
-        "Задайте вопрос сотруднику в зале и опишите его реакцию и компетентность.",
-        "Как магазин справляется с очередями в 'часы пик'? Что можно улучшить?"
+        "Оцените компетентность и вежливость фармацевта. Помог ли он вам с выбором?",
+        "Насколько быстро вас обслужили? Была ли очередь, и как персонал с ней справлялся?",
+        "Оцените чистоту и порядок в аптеке. Все ли ценники на месте и легко читаемы?",
+        "Как вы оцениваете ассортимент лекарств и сопутствующих товаров? Нашли ли вы всё, что искали?",
+        "Задайте фармацевту вопрос о побочных эффектах или аналоге препарата. Опишите, насколько полным и понятным был ответ."
     ];
 
     // --- СОСТОЯНИЕ ПРИЛОЖЕНИЯ ---
-    const state = { photoUrl: '', userLevel: LEVELS[0], submissionCount: 0, points: 0 };
+    const state = { userLevel: LEVELS[0], submissionCount: 0, points: 0 };
 
     // --- ЭЛЕМЕНТЫ DOM ---
     const form = document.getElementById('review-form');
@@ -174,11 +148,8 @@
 
     function calculateReward() {
         let totalPoints = 0;
-        if (reviewTextInput.value.length > 0) {
+        if (reviewTextInput.value.length > 10) { // Начинаем считать награду после 10 символов
             totalPoints += REWARDS.BASE_REVIEW;
-        }
-        if (state.photoUrl) {
-            totalPoints += REWARDS.WITH_PHOTO;
         }
 
         const finalPoints = Math.ceil(totalPoints * state.userLevel.multiplier);
@@ -202,7 +173,7 @@
             return;
         }
         if (reviewTextInput.value.length < 50) {
-             formError.textContent = 'Отзыв слишком короткий. Опишите, пожалуйста, подробнее.';
+             formError.textContent = 'Отзыв слишком короткий. Опишите, пожалуйста, подробнее (минимум 50 символов).';
              formError.classList.remove('hidden');
              return;
         }
@@ -223,7 +194,6 @@
             phone: phoneInput.value,
             level: state.userLevel.name,
             reviewText: reviewTextInput.value,
-            photoURL: state.photoUrl || 'Нет фото',
             pointsAwarded: state.points
         };
 
@@ -259,9 +229,7 @@
         document.getElementById('success-message').classList.add('hidden');
         document.getElementById('main-content').classList.remove('hidden');
         form.reset();
-        state.photoUrl = '';
         state.points = 0;
-        uploadcare.Widget('#file-upload-widget').value(null);
         document.getElementById('user-profile').classList.add('hidden');
         rewardContainer.classList.add('opacity-0', 'scale-95');
         setRandomMission();
@@ -279,19 +247,6 @@
             IMask(phoneInput, { mask: '+{7} (000) 000-00-00' });
         }
         
-        // Виджет загрузки
-        const uploadcareWidget = uploadcare.Widget('#file-upload-widget');
-        uploadcareWidget.onUploadComplete(fileInfo => {
-            state.photoUrl = fileInfo.cdnUrl;
-            calculateReward();
-        });
-        uploadcareWidget.onChange(file => {
-             if(!file) {
-                 state.photoUrl = '';
-                 calculateReward();
-             }
-        });
-
         // Слушатели событий
         phoneInput.addEventListener('input', updateUIWithUserData);
         reviewTextInput.addEventListener('input', calculateReward);
